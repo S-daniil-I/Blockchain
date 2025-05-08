@@ -3,23 +3,40 @@
 <form action="{{url_for('index')}}" method="POST">
     <div class="mb-3">
         <label for="exampleInputLender" class="form-label">Кредитор</label>
-        <input type="text" class="form-control" id="exampleInputLender" placeholder="Имя" name="lender" value="{{request.form.get('lender','')}}">
+        <input type="text" class="form-control {% if error_lender %}is-invalid{% endif %}" id="exampleInputLender" placeholder="Имя (только латинские буквы)" name="lender" value="{{request.form.get('lender','')}}">
+        {% if error_lender %}
+        <div class="invalid-feedback">
+            {{ error_lender }}
+        </div>
+        {% endif %}
     </div>
     <div class="mb-3">
         <label for="exampleInputAmount" class="form-label">Сумма</label>
-        <input type="text" class="form-control" id="exampleInputAmount" placeholder="Сумма" name="amount" value="{{request.form.get('amount','')}}">
+        <input type="text" class="form-control {% if error_amount %}is-invalid{% endif %}" id="exampleInputAmount" placeholder="Сумма (число)" name="amount" value="{{request.form.get('amount','')}}">
+        {% if error_amount %}
+        <div class="invalid-feedback">
+            {{ error_amount }}
+        </div>
+        {% endif %}
     </div>
     <div class="mb-3">
         <label for="exampleInputBorrower" class="form-label">Заемщик</label>
-        <input type="text" class="form-control" id="exampleInputBorrower"placeholder="Имя" name="borrower" value="{{request.form.get('borrower','')}}">
+        <input type="text" class="form-control {% if error_borrower %}is-invalid{% endif %}" id="exampleInputBorrower"placeholder="Имя (только латинские буквы)" name="borrower" value="{{request.form.get('borrower','')}}">
+        {% if error_borrower %}
+        <div class="invalid-feedback">
+            {{ error_borrower }}
+        </div>
+        {% endif %}
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {%endblock %}
 {%block checking%}
-    {% for res in results%}
-        <div class="result">
-            block {{res['block']}}:{{res['result']}}
-        </div>
-    {%endfor%}
+    {% if results %}
+        {% for res in results%}
+            <div class="result">
+                Блок {{ res['file'] }}: {{ res['message'] }}
+            </div>
+        {% endfor %}
+    {% endif %}
 {%endblock%}

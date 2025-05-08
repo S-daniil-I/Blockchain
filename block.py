@@ -32,13 +32,13 @@ def check_integrity():
 
         actual_prev_hash = get_hash(previous_file)
 
-        if corruption_detected or current_data['hash'] != actual_prev_hash:
-            res = 'Corrupted'
+        if corruption_detected or current_data.get('hash') != actual_prev_hash:
+            res = {'message': 'Блок поврежден!', 'file': previous_file}
             corruption_detected = True
         else:
-            res = 'Everything is fine. No changes. 😊'
+            res = {'message': 'Все хорошо. Никаких изменений не найдено.', 'file': previous_file}
 
-        results.append({'block': previous_file, 'result': res})
+        results.append(res)
 
     return results
 
