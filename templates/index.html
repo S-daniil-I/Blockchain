@@ -1,5 +1,6 @@
 {%extends 'base.html' %}
 {%block content%}
+<h1>Создание транзакции</h1>
 <form action="{{url_for('index')}}" method="POST">
     <div class="mb-3">
         <label for="exampleInputLender" class="form-label">Кредитор</label>
@@ -30,13 +31,19 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<hr>
+<a href="{{ url_for('view_chain') }}">Просмотреть цепочку блоков</a>
 {%endblock %}
+
 {%block checking%}
     {% if results %}
-        {% for res in results%}
-            <div class="result">
-                Блок {{ res['file'] }}: {{ res['message'] }}
-            </div>
-        {% endfor %}
+        <h2>Статус проверки цепочки</h2>
+        <div class="checking-results">
+            {% for res in results %}
+                <div class="result">
+                    Блок {{ res['file'] }}: <span class="{% if 'поврежден' in res['message'] %}corrupted{% else %}ok{% endif %}">{{ res['message'] }}</span>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 {%endblock%}

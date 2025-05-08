@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, request
-from block import write_block, check_integrity
+from block import write_block, check_integrity, get_blockchain_dir, get_sorted_files
 import re
+import json
+import os
 
 app = Flask(__name__)
 
@@ -43,6 +45,22 @@ def index():
 def check():
     results = check_integrity()
     return render_template('index.html', results=results)
+
+@app.route('/chain')
+def view_chain():
+    blockchain_dir = get_blockchain_dir()
+    files = get_sorted_files(blockchain_dir)
+    chain = []
+    for file in files:
+        filepath = os.path.join(blockchain_dir, str(file))
+        try:
+            with open(filepath, 'r') as f:
+                block_data = json.load(f)
+                block_data['filename'] = str(file)
+                chain.append(block_data)
+        except (FileNotFoundError, json.JSONDecodeError):
+            chain.append({'filename': str(file), 'error': 'Ошибка чтения блока'})
+    return render_template('chain.html', chain=chain)
 
 if __name__ == '__main__':
     app.run(debug=True)

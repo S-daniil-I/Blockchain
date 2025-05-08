@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Цепочка блоков</h1>
+    <div class="blockchain">
+        {% for block in chain %}
+            <div class="block-wrapper">
+                <div class="block">
+                    <h3>Блок {{ block.filename }}</h3>
+                    {% if block.error %}
+                        <p class="error">{{ block.error }}</p>
+                    {% else %}
+                        <p><strong>Кредитор:</strong> {{ block.name }}</p>
+                        <p><strong>Сумма:</strong> {{ block.amount }}</p>
+                        <p><strong>Заемщик:</strong> {{ block.to_whom }}</p>
+                        <p><strong>Хэш предыдущего блока:</strong> <span class="hash">{{ block.hash }}</span></p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-primary">Back</a>
+    </div>
+{% endblock %}
+
+{% block checking %}
+    {% if results %}
+        <h2>Статус проверки цепочки</h2>
+        <div class="checking-results">
+            {% for res in results %}
+                <div class="result">
+                    Блок {{ res['file'] }}: <span class="{% if 'поврежден' in res['message'] %}corrupted{% else %}ok{% endif %}">{{ res['message'] }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+<style>
+    .blockchain {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .block {
+        border: 2px solid #03dac6;
+        border-radius: 10px;
+        background-color: #1f2a33;
+        padding: 20px;
+        margin-bottom: 25px;
+        width: 60%;
+        box-shadow: 0 0 12px rgba(3, 218, 198, 0.4);
+        color: #ffffff;
+        transition: transform 0.2s ease;
+    }
+
+    .block:hover {
+        transform: scale(1.01);
+    }
+
+    .block h3 {
+        margin-top: 0;
+        color: #03dac6;
+        border-bottom: 1px solid #444;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .block p {
+        margin-bottom: 8px;
+    }
+
+    .block strong {
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .error {
+        color: red;
+        font-weight: bold;
+    }
+
+    .checking-results {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f5f5f5;
+        width: 60%;
+        text-align: left;
+        color: #000;
+    }
+
+    .result {
+        margin-bottom: 8px;
+    }
+
+    .hash {
+        font-family: monospace;
+        font-size: 0.9em;
+        color: #999;
+    }
+</style>
