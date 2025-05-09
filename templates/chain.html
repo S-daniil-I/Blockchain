@@ -46,16 +46,26 @@
         padding: 20px;
     }
 
+    .block-wrapper {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: rgba(255, 255, 255, 0.03); /* Убрал border и box-shadow отсюда */
+        border-radius: 10px;
+        width: 100%; /* Занимать всю ширину родителя */
+    }
+
     .block {
         border: 2px solid #03dac6;
         border-radius: 10px;
         background-color: #1f2a33;
         padding: 20px;
         margin-bottom: 25px;
-        width: 60%;
+        width: 100%; /* Занимать всю ширину родителя */
         box-shadow: 0 0 12px rgba(3, 218, 198, 0.4);
         color: #ffffff;
         transition: transform 0.2s ease;
+        word-break: break-word; /* Добавлено для переноса длинных слов */
+        overflow-wrap: break-word; /* Добавлено для переноса длинных слов */
     }
 
     .block:hover {
@@ -90,7 +100,7 @@
         border: 1px solid #ccc;
         border-radius: 8px;
         background-color: #f5f5f5;
-        width: 60%;
+        width: 100%; /* Занимать всю ширину родителя */
         text-align: left;
         color: #000;
     }
@@ -103,5 +113,50 @@
         font-family: monospace;
         font-size: 0.9em;
         color: #999;
+        word-break: break-word; /* Добавлено для переноса длинных слов */
+        overflow-wrap: break-word; /* Добавлено для переноса длинных слов */
+        display: inline-block; /* Чтобы word-break работал корректно */
+        width: 100%; /* Занимать всю доступную ширину */
+    }
+
+    /* Медиазапросы для адаптивности (уточнения для маленьких экранов) */
+    @media (max-width: 767px) {
+        .block {
+            padding: 15px; /* Уменьшить отступы на маленьких экранах */
+        }
+
+        .hash {
+            font-size: 0.8em; /* Еще немного уменьшить шрифт на маленьких экранах */
+        }
+
+        .checking-results {
+            padding: 10px; /* Уменьшить отступы */
+        }
+    }
+
+    /* Дополнительные стили для средних экранов (планшетов) */
+    @media (min-width: 768px) and (max-width: 991px) {
+        .block {
+            width: 80%; /* Занимать 80% на планшетах */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .checking-results {
+            width: 80%; /* Занимать 80% на планшетах */
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    /* Стиль для больших экранов (десктопов) */
+    @media (min-width: 992px) {
+        .block {
+            width: 60%; /* Вернуть ширину для десктопов */
+        }
+
+        .checking-results {
+            width: 60%; /* Вернуть ширину для десктопов */
+        }
     }
 </style>
