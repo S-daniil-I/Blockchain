@@ -79,8 +79,8 @@ def write_block(name, amount, to_whom, prev_hash=''):
             'amount': amount,
             'to_whom': to_whom,
             'hash': prev_hash}
-    with open(blockchain_dir + filename, 'w') as file:
-        json.dump(data, file, indent=4)
+    with open(blockchain_dir + filename, 'wb') as file:
+        file.write(json.dumps(data, indent=4).encode('utf-8'))
 
 def main():
     print(check_integrity())
